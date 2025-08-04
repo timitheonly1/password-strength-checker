@@ -1,0 +1,98 @@
+-- Active: 1700174632696@@127.0.0.1@3306@termprojectreal
+/* Oluwatimi Fadugba @03009657*/
+/* termprojectreal*/
+/* INFO 330-01 */
+/*11-20-23*/
+
+/*Query 1 What is the experience contact information and gender of trainers with experience between 5 and 10 years?*/
+SELECT trainerID, email, gender
+FROM Trainers
+WHERE experience BETWEEN 5 AND 10;
+
+/*Query 2 What were the weight, height and chest measurements of users whos hips were between 45.0 and 50.0? */
+SELECT weight, height, chest
+FROM Measurements
+WHERE hips BETWEEN 45.0 AND 50.0;
+
+/*Query 3 What was the title and date earned of the achievement user 5 earned?*/
+SELECT title, dateearned
+FROM Achievements
+WHERE UserID LIKE '5';
+
+/*Query 4 What time were workouts held at LA Fitness?*/
+SELECT time , workouts, activityID
+FROM ActivitySchedule
+WHERE location LIKE 'LA Fitness';
+
+/* Query 5 How many users had a target weight greater than 188 pounds?*/
+SELECT weightgoal,targetweight
+FROM FitnessGoal
+WHERE targetweight > '188.0';
+
+/* Query 6 How many users used Milk as a protein?*/
+SELECT proteins,calories
+FROM MealPlan
+WHERE proteintype LIKE 'Milk';
+
+/* Query 7 How many meals were logged in the nutrition log?*/
+SELECT meals , COUNT(nutritionID)
+FROM Nutritionlog
+GROUP BY meals;
+
+/*Query 8 Whats the age of users weighing less than or equal to 150 pounds */
+SELECT age
+FROM User
+WHERE weight <= '150';
+
+/* Query 9 What date did some users weigh over 200 pounds?*/
+SELECT date 
+FROM UserProgress
+WHERE weight >'200';
+
+/*Query 10 How many sets and reps are in the programs workoutplans?*/
+SELECT setsreps ,COUNT(workoutID)
+FROM WorkoutPlans
+GROUP BY setsreps;
+
+/* Chapter  6 queries */
+
+/* Query 1 What are the heights and weights recorded for users and their gender ?*/
+SELECT height , Measurements.weight , gender
+FROM Measurements INNER JOIN User ON Measurements.UserID = User.UserID;
+
+/* Query 2 What are the ages of the users in the database as well as their weight ?*/
+SELECT User.UserID , User.Age , Fitnessgoal.weightgoal
+FROM User INNER JOIN FitnessGoal ON User.UserID = FitnessGoal.UserID;
+
+/*Query 3 Which users have workouts scheduled and how old are they?*/
+SELECT User.UserID, USER.Age , ActivitySchedule.workouts
+FROM User LEFT OUTER JOIN ActivitySchedule ON USER.UserID = ActivitySchedule.UserID;
+
+/*Query 4 What are the schedules for users also including users who might not have a workout plan?*/
+SELECT WorkoutPlans.setworkouts ,WorkoutPlans.timeofday,USER.Email
+FROM WorkoutPlans RIGHT JOIN User ON USER.UserID = WorkoutPlans.UserID;
+
+/*Query 5 What calorie intakes and meals are usually logged by users giving their email?*/
+SELECT Nutritionlog.calorieintake, meals, USER.Email
+FROM Nutritionlog NATURAL JOIN User;
+
+/*Query 6 What trainers have the same gender and age as users?*/
+SELECT Trainers.Email, Trainers.gender , USER.Age
+FROM Trainers NATURAL JOIN User;
+
+/*Query 7 What are the weight and height measurements in user progress when logged*/
+SELECT Measurements.weight, Measurements.height, UserProgress.date
+FROM Measurements NATURAL JOIN UserProgress;
+
+/*Query 8 What workouts are scheduled at different locations and whats the activity schedules linked with their workout plans*/
+SELECT ActivitySchedule.workout, WorkoutPlans.setsreps, ActivitySchedule.location
+FROM ActivitySchedule NATURAL JOIN workoutplans;
+
+/*Query 9 What body measurements are associated with achievements earned?*/
+SELECT UserProgress.bodymeasurements, Achievements.title
+FROM UserProgress INNER JOIN Achievements ON UserProgress.UserID = Achievements.UserID;
+
+/*Query 10 What users have meal plans ans what type of protein in the plan? */
+SELECT Age, MealPlan.proteintype
+FROM USER FULL JOIN MealPlan;
+
