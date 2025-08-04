@@ -1,0 +1,152 @@
+-- Active: 1700174632696@@127.0.0.1@3306@termprojectreal
+/* Oluwatimi Fadugba @03009657*/
+/* termprojectreal*/
+/* INFO 330-01 */
+/*11-20-23*/
+
+
+CREATE TABLE User
+(UserID   NUMERIC(10)       NOT NULL,
+Age       NUMERIC(2)        NOT NULL,
+Email     VARCHAR(200)      NOT NULL,
+Weight    DECIMAL(8,2)      NOT NULL,
+Gender    VARCHAR(10)       NOT NULL,
+CONSTRAINT PK_User PRIMARY KEY(UserID));
+
+CREATE TABLE FitnessGoals
+(fitnessgoalID    NUMERIC(10)     NOT NULL,
+weightgoal        NUMERIC(8,2)    NOT NULL, 
+targetweight      NUMERIC(8,2)    NOT NULL,
+bodyfatpercentage NUMERIC(4,2)    NOT NULL,
+UserID           NUMERIC(10)       NOT NULL,
+CONSTRAINT PK_FitnessGoal PRIMARY KEY(fitnessgoalID),
+CONSTRAINT FK_FitnessGoals FOREIGN key(UserID)REFERENCES User(UserID));
+ 
+CREATE TABLE Measurements
+(measurementID   NUMERIC(10)    NOT NULL,
+weight           NUMERIC(8,2)  NOT NULL,
+height           NUMERIC(5,2)  NOT NULL,
+chest            NUMERIC(5,2)   NOT NULL,
+waist            NUMERIC(5,2)   NOT NULL,
+hips             NUMERIC(5,2)   NOT NULL,
+UserID          NUMERIC(10)       NOT NULL,
+CONSTRAINT PK_Measurements PRIMARY KEY(measurementID), 
+CONSTRAINT FK_Measurements FOREIGN key(UserID)REFERENCES User(UserID)); 
+
+CREATE TABLE Trainers 
+(trainerID       NUMERIC(10)  NOT NULL,
+email            VARCHAR(100) NOT NULL, 
+gender           VARCHAR(10)  NOT NULL,
+experience       NUMERIC(65)  NOT NULL,
+specializations  VARCHAR(100) NOT NULL,
+UserID          NUMERIC(10)       NOT NULL,
+CONSTRAINT PK_Trainers PRIMARY KEY(trainerID),
+CONSTRAINT FK_Trainers FOREIGN key(UserID)REFERENCES User(UserID));
+
+CREATE TABLE WorkoutPlans
+(workoutID    NUMERIC(10)  NOT NULL,
+timeofday     TIME         NOT NULL,
+setworkouts   VARCHAR(255) NOT NULL,
+setsreps      VARCHAR(50)  NOT NULL,
+UserID       NUMERIC(10)       NOT NULL,
+CONSTRAINT PK_WorkoutPlans PRIMARY KEY (workoutID),
+CONSTRAINT FK_WorkoutPlans FOREIGN key(UserID)REFERENCES User(UserID));
+
+CREATE TABLE ActivitySchedule
+(activityID  NUMERIC(10)    NOT NULL,
+workouts     VARCHAR(255)   NOT NULL,
+time         TIME           NOT NULL,
+location     VARCHAR(255)   NOT NULL,
+UserID      NUMERIC(10)       NOT NULL,
+CONSTRAINT PK_ActivitySchedule PRIMARY KEY (activityID),
+CONSTRAINT FK_ActivitySchedule FOREIGN key(UserID)REFERENCES User(UserID));
+
+CREATE TABLE Nutritionlog
+(nutritionID NUMERIC(10)    NOT NULL,
+calorieintake NUMERIC(6,2)  NOT NULL,
+meals        VARCHAR(255)   NOT NULL,
+macros       VARCHAR(255)   NOT NULL,
+logdate      TIMESTAMP      NOT NULL,
+UserID      NUMERIC(10)       NOT NULL,
+CONSTRAINT PK_Nutritionlog PRIMARY KEY (nutritionID),
+CONSTRAINT FK_Nutritionlog FOREIGN key(UserID)REFERENCES User(UserID));
+
+CREATE TABLE MealPlan
+(mealID       NUMERIC(10)      NOT NULL,
+proteins      NUMERIC(5,2)     NOT NULL,
+calories      NUMERIC(65)      NOT NULL,
+proteintype   VARCHAR(50)       NOT NULL,
+UserID        NUMERIC(10)       NOT NULL,
+CONSTRAINT PK_MealPlan PRIMARY KEY (mealID),
+CONSTRAINT FK_MealPlan FOREIGN key(UserID)REFERENCES User(UserID));
+
+CREATE TABLE Achievements
+(achievementID NUMERIC(10)      NOT NULL,
+dateearned     TIMESTAMP        NOT NULL,
+title          VARCHAR(50)      NOT NULL,
+milestone      VARCHAR(255)     NOT NULL,
+UserID   NUMERIC(10)       NOT NULL,
+CONSTRAINT PK_Achievements PRIMARY KEY (achievementID),
+CONSTRAINT FK_Achievements FOREIGN key(UserID)REFERENCES User(UserID));
+
+CREATE TABLE UserProgress
+(userprogressID   NUMERIC(10)          NOT NULL,
+bodymeasurements  NUMERIC(8,2)         NOT NULL,
+weight            Numeric(8,2)         NOT NULL,
+date              TIMESTAMP            NOT NULL,
+UserID             NUMERIC(10)       NOT NULL,
+CONSTRAINT PK_UserProgress PRIMARY KEY (userprogressID),
+CONSTRAINT FK_UserProgress FOREIGN key(UserID)REFERENCES User(UserID));
+
+CREATE INDEX INX_User_UserID ON User(UserID);
+
+ALTER TABLE FitnessGoal
+ADD COLUMN UserID NUMERIC(10) NOT NULL
+
+ALTER TABLE FitnessGoal
+ADD CONSTRAINT FK_FitnessGoal FOREIGN KEY(UserID) REFERENCES User(UserID);
+
+ALTER TABLE Measurements
+ADD COLUMN UserID NUMERIC(10) NOT NULL
+ADD CONSTRAINT FK_Measurements FOREIGN KEY(UserID) REFERENCES User(UserID);
+
+ALTER TABLE Trainers 
+ADD COLUMN UserID NUMERIC(10) NOT NULL
+ADD CONSTRAINT FK_Trainers FOREIGN KEY(UserID) REFERENCES User(UserID);
+
+ALTER TABLE  WorkoutPlans
+ADD COLUMN UserID NUMERIC(10) NOT NULL
+ADD CONSTRAINT FK_WorkoutPlans FOREIGN KEY(UserID) REFERENCES User(UserID);
+
+ALTER TABLE  ActivitySchedule
+ADD COLUMN UserID NUMERIC(10) NOT NULL
+ADD CONSTRAINT FK_ActivitySchedule FOREIGN KEY(UserID) REFERENCES User(UserID);
+
+ALTER TABLE  Nutritionlog
+ADD COLUMN UserID NUMERIC(10) NOT NULL
+ADD CONSTRAINT FK_Nutritionlog FOREIGN KEY(UserID) REFERENCES User(UserID);
+
+ALTER TABLE  MealPlan
+ADD COLUMN UserID NUMERIC(10) NOT NULL
+ADD CONSTRAINT FK_MealPlan FOREIGN KEY(UserID) REFERENCES User(UserID);
+
+ALTER TABLE  Achievements
+ADD COLUMN UserID NUMERIC(10) NOT NULL
+ADD CONSTRAINT FK_Achievements FOREIGN KEY(UserID) REFERENCES User(UserID);
+
+ALTER TABLE  UserProgress
+ADD COLUMN UserID NUMERIC(10) NOT NULL
+ADD CONSTRAINT FK_UserProgress FOREIGN KEY(UserID) REFERENCES User(UserID);
+
+ALTER TABLE Measurements
+ADD COLUMN chest   NUMERIC(5,2)   NOT NULL
+ADD COLUMN waist   NUMERIC(5,2)   NOT NULL
+ADD COLUMN hips    NUMERIC(5,2)   NOT NULL
+ADD COLUMN measurementID   NUMERIC(10) NOT NULL;
+
+ALTER TABLE Measurements
+ADD COLUMN measurementID NUMERIC(10) NOT NULL;
+
+
+
+
